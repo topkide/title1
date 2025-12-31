@@ -1,0 +1,97 @@
+# ===================================
+# 도토리마을 칭호 시스템
+# Minecraft Version: 1.21.8
+# Java Version: 21
+# ===================================
+
+# 데이터베이스 설정 (Core와 독립적으로 작동)
+database:
+  # MySQL 설정
+  mysql:
+    host: "localhost"
+    port: 1654
+    database: "title"
+    username: "root"
+    password: "@asas081516"
+    
+    # HikariCP 연결 풀 설정
+    pool:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  
+  # Redis 설정 (캐싱 + 멀티서버 동기화)
+  redis:
+    enabled: true
+    host: "localhost"
+    port: 1659
+    password: "081516"
+    database: 0
+    
+    # 캐시 설정
+    cache:
+      ttl: 600  # 캐시 유지 시간 (초, 10분)
+
+# 칭호북 아이템 설정
+title-book:
+  material: BOOK
+  custom-model-data: 0  # 커스텀 모델 데이터 (0 = 기본)
+  display-name: "&6&l칭호북"
+  lore:
+    - "&7우클릭하면 다음 칭호를 획득합니다:"
+    - "&e{title}"
+    - ""
+    - "&f&l[!] &7이 칭호북은 한 번만 사용됩니다."
+
+# GUI 설정
+gui:
+  title: "&6&l내 칭호 목록 &7({current}/{max})"
+  size: 54  # 6줄 = 54칸
+  
+  # 선택된 칭호 아이템 (인챈트 효과)
+  selected-item:
+    material: PAPER
+    enchant-glow: true
+    display-name: "&a&l{title}"
+    lore:
+      - "&a&l✓ 착용 중"
+      - ""
+      - "&f좌클릭: &c해제"
+      - "&f쉬프트 + 우클릭: &c&l영구 삭제"
+  
+  # 미선택 칭호 아이템
+  unselected-item:
+    material: PAPER
+    display-name: "&e{title}"
+    lore:
+      - "&7좌클릭: &a착용"
+      - "&f쉬프트 + 우클릭: &c&l영구 삭제"
+
+# 메시지
+messages:
+  prefix: "&8[&6칭호&8]"
+  
+  # 칭호 획득
+  title-obtained: "%prefix% &a{title} &7칭호를 획득했습니다!"
+  already-owned: "%prefix% &c이미 보유한 칭호입니다."
+  inventory-full: "%prefix% &c칭호 슬롯이 가득 찼습니다! (최대 54개)"
+  
+  # 칭호 착용/해제
+  title-equipped: "%prefix% &a{title} &7칭호를 착용했습니다."
+  title-unequipped: "%prefix% &c칭호를 해제했습니다."
+  
+  # 칭호 삭제
+  title-deleted: "%prefix% &c{title} &7칭호를 영구 삭제했습니다."
+  
+  # 칭호북 생성
+  book-created: "%prefix% &a칭호북이 생성되었습니다!"
+  invalid-title-name: "%prefix% &c유효하지 않은 칭호 이름입니다."
+  
+  # 권한
+  no-permission: "%prefix% &c이 명령어를 사용할 권한이 없습니다."
+  
+  # GUI
+  gui-title-prefix: "&8[&6칭호&8]"
+  no-titles: "%prefix% &c보유한 칭호가 없습니다."

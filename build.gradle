@@ -1,0 +1,70 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = project.property('group')
+version = project.property('version')
+
+def projectName = rootProject.name
+def packageName = projectName.toLowerCase()
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.papermc.io/repository/maven-public/' }
+    maven { url 'https://repo.purpurmc.org/snapshots' }
+    maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+}
+
+dependencies {
+    // Purpur API
+    compileOnly 'org.purpurmc.purpur:purpur-api:1.21.3-R0.1-SNAPSHOT'
+    
+    // PlaceholderAPI
+    compileOnly 'me.clip:placeholderapi:2.11.6'
+    
+    // Core Plugin (libs 폴더)
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+    
+    // MySQL + HikariCP (독립 실행)
+    implementation 'com.mysql:mysql-connector-j:8.3.0'
+    implementation 'com.zaxxer:HikariCP:5.1.0'
+    
+    // Redis (독립 실행)
+    implementation 'redis.clients:jedis:5.1.0'
+    
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.release.set(21)
+}
+
+processResources {
+    def props = [
+        projectName: projectName,
+        packageName: packageName,
+        version: version,
+        group: project.group
+    ]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') { expand props }
+}
+
+shadowJar {
+    archiveClassifier.set('')
+}
+
+build {
+    dependsOn shadowJar
+}

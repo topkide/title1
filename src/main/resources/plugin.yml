@@ -1,0 +1,21 @@
+name: 'Title'
+version: '1.0.0'
+main: 'com.dotorimaru.title.TitlePlugin'
+api-version: '1.21'
+depend: [Core, PlaceholderAPI]
+author: 명노준
+description: 도토리마을 칭호 시스템
+
+commands:
+  칭호:
+    description: 칭호 GUI를 엽니다
+    usage: /칭호
+  칭호북:
+    description: 칭호북을 생성합니다 (OP 전용)
+    usage: /칭호북 [칭호이름]
+    permission: title.admin
+  칭호관리:
+    description: 칭호 시스템 관리 명령어
+    usage: /칭호관리 <리로드>
+    permission: title.admin
+    aliases: [titleadmin, 타이틀관리]
